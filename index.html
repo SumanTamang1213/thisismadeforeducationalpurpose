@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:url('photos01/0f263a0a4baaf92c09c4461513272b8d.jpg') center/cover no-repeat;
+    overflow:hidden;
+}
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(230, 196, 222, 0.45);
+}
+
+.container{
+    position:relative;
+    z-index:2;
+    width:90%;
+    max-width:800px;
+    text-align:center;
+}
+
+.card{
+    background:rgba(255, 255, 255, 0.95);
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    animation:fadeIn 0.7s ease;
+}
+
+.hidden{
+    display:none;
+}
+
+button{
+    padding:12px 25px;
+    margin:10px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    font-size:16px;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+.main-btn{
+    background:#ff4d6d;
+    color:white;
+}
+
+.secondary-btn{
+    background:#ff85a2;
+    color:white;
+}
+
+.back-btn{
+    background:#555;
+    color:white;
+}
+
+.memory-container{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.memory-image{
+    width:100%;
+    max-width:600px;
+    height:600px;
+    object-fit:contain;
+    border-radius:15px;
+    margin-bottom:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.3);
+}
+
+.arrow-box{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+.arrow{
+    font-size:25px;
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:#ff4d6d;
+    color:white;
+}
+
+h2{
+    color:#ff4d6d;
+    margin-bottom:15px;
+}
+
+p{
+    line-height:1.7;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+.heart{
+    position:absolute;
+    bottom:-50px;
+    color:red;
+    font-size:30px;
+    animation:float 6s linear infinite;
+}
+
+.heart:nth-child(1){
+    left:10%;
+    animation-duration:5s;
+}
+
+.heart:nth-child(2){
+    left:30%;
+    animation-duration:7s;
+}
+
+.heart:nth-child(3){
+    left:50%;
+    animation-duration:6s;
+}
+
+.heart:nth-child(4){
+    left:70%;
+    animation-duration:8s;
+}
+
+.heart:nth-child(5){
+    left:90%;
+    animation-duration:5.5s;
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(0) scale(1);
+        opacity:1;
+    }
+    100%{
+        transform:translateY(-110vh) scale(1.5);
+        opacity:0;
+    }
+}
+
+.earring-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+    margin-top:15px;
+}
+
+.earring{
+    border:2px solid #ddd;
+    border-radius:10px;
+    overflow:hidden;
+    cursor:pointer;
+}
+
+.earring img{
+    width:100%;
+    height:90px;
+    object-fit:cover;
+}
+
+.earring.selected{
+    border:3px solid #ff4d6d;
+}
+
+.gift-area{
+    margin-top:15px;
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    align-items:center;
+}
+
+#giftBox{
+    width:220px;
+    min-height:80px;
+    border:3px dashed #ff4d6d;
+    border-radius:15px;
+    padding:10px;
+    background:white;
+}
+
+#selectedItems{
+    margin-top:5px;
+    font-size:14px;
+}
+
+
+</style>
+</head>
+
+<body>
+<div class="heart">❤️</div>
+<div class="heart">💖</div>
+<div class="heart">💕</div>
+<div class="heart">💗</div>
+<div class="heart">💓</div>
+
+<div class="overlay"></div>
+
+<div class="container">
+
+    <!-- Start -->
+    <div id="startScreen">
+        <button class="main-btn" onclick="showBirthdayCard()">
+            🎁 Click For Surprise
+        </button>
+    </div>
+
+    <!-- Birthday Card -->
+    <div id="birthdayCard" class="card hidden">
+        <h2>🎉Happy Birthday❤️</h2>
+        <img src="photos01/happy-birthday-birthday-cake.gif" alt="Birthday GIF" width="250">
+        <p>
+            🥳Happy Birthday Bhumu❤️.
+            Wishing you a day filled with happiness, laughter, and unforgettable moments.
+            May all your dreams come true.🥳
+        </p>
+
+        <br>
+
+        <button class="secondary-btn" onclick="showGift()">
+            🎁 Birthday Gift
+        </button>
+
+        <button class="secondary-btn" onclick="showMemories()">
+            📸 Our Memories
+        </button>
+    </div>
+
+    <!-- Gift Selection -->
+<div id="giftCard" class="card hidden">
+
+    <h2>🎁 Choose Your Favorite Earrings</h2>
+
+    <div class="earring-grid">
+
+        <div class="earring" onclick="selectGift(this)">
+            <img src="photos01/IMG_20260617_151041.jpg">
+        </div>
+
+        <div class="earring" onclick="selectGift(this)">
+            <img src="photos01/IMG_20260612_154354.jpg">
+        </div>
+
+        <div class="earring" onclick="selectGift(this)">
+            <img src="photos01/IMG_20260612_154418.jpg">
+        </div>
+
+        <div class="earring" onclick="selectGift(this)">
+            <img src="photos01/IMG_20260612_154457.jpg">
+        </div>
+
+        <div class="earring" onclick="selectGift(this)">
+            <img src="photos01/IMG_20260612_154516.jpg">
+        </div>
+
+        <div class="earring" onclick="selectGift(this)">
+            <img src="photos01/IMG_20260612_154542.jpg">
+        </div>
+
+        <div class="earring" onclick="selectGift(this)">
+            <img src="photos01/IMG_20260617_150756.jpg">
+        </div>
+
+        <div class="earring" onclick="selectGift(this)">
+            <img src="photos01/IMG_20260612_154621.jpg">
+        </div>
+
+        <div class="earring" onclick="selectGift(this)">
+            <img src="photos01/IMG_20260612_154648.jpg">
+        </div>
+
+        <div class="earring" onclick="selectGift(this)">
+            <img src="photos01/IMG_20260612_154736.jpg">
+        </div>
+
+        <div class="earring" onclick="selectGift(this)">
+            <img src="photos01/IMG_20260617_151300.jpg">
+        </div>
+
+        <div class="earring" onclick="selectGift(this)">
+            <img src="photos01/IMG_20260612_154822.jpg">
+        </div>
+
+    </div>
+
+    <div class="gift-area">
+
+        <div id="giftBox">
+             <img src="photos01/jorrbox-jorrparivar (1).gif" alt="Birthday GIF" width="150">
+            <div id="selectedItems"></div>
+        </div>
+
+        <button class="main-btn" onclick="showGiftReady()">
+            OK
+        </button>
+
+    </div>
+
+    
+
+</div>
+
+<!-- Gift Ready Page -->
+<div id="giftReadyCard" class="card hidden">
+
+    <h3>🎉 Your Gift Is Ready 🎁</h3>
+
+    <p>
+        <img src="photos01/sticker-gift.gif">
+    </p>
+
+    <br>
+
+    <button class="main-btn" onclick="showBirthdayCard()">
+    OK
+</button>
+
+</div>
+
+    <!-- Memories -->
+    <div id="memorySection" class="card hidden">
+
+        <div class="memory-container">
+
+            <img id="memoryImage"
+                 class="memory-image"
+                 src="01/❤️❤️❤️.png">
+
+            <h3 id="photoCount">Memory 1 / 22</h3>
+
+            <div class="arrow-box">
+                <button class="arrow" onclick="prevPhoto()">⬅</button>
+                <button class="arrow" onclick="nextPhoto()">➡</button>
+            </div>
+
+            <div id="noteButtonContainer" class="hidden">
+                <br>
+                <button class="main-btn" onclick="showNote()">
+                    ❤️ A Note
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Note Card 1 -->
+<div id="noteCard1" class="card hidden">
+
+    <h1>❤️ A Note For You</h1>
+
+    <p>
+        Today I’m writing this note. Not to explain anything to you. Not to expect anything from you. Just to let my heart breathe a little. And maybe to say thank you in a way I never could. I don’t know how it happened. But ever since you came into my life, something inside me quietly started changing. A life that once felt a little dull, a little empty, slowly started feeling alive again. Not loudly. Not suddenly. But softly, in ways only I could feel. 
+
+ 
+
+<br>With you there was always this strange comfort. Like I didn’t have to think too much. Didn’t have to filter myself. Like I could just be. Say anything. Feel anything. And somewhere deep down I knew you wouldn’t judge me. And that feeling meant more than I ever showed.
+    </p>
+
+    <br>
+
+    <button class="main-btn" onclick="showNote2()">
+        More ❤️
+    </button>
+
+</div>
+
+<!-- Note Card 2 -->
+<div id="noteCard2" class="card hidden">
+
+    
+
+    <p>
+        So today I just want to say thank you. For being there in ways you probably don’t even realize. For listening to my silly questions with so much patience. For smiling at my random talks like they actually mattered. For making me feel heard when I didn’t even know how to express myself. And maybe the most important thing... for caring. Not loudly. Not in big ways. But in those small, quiet moments that stayed with me long after they passed. 
+
+ 
+
+<br>You never said much directly. But your small actions, your simple words, they always carried something. Something gentle. Something real. And maybe that’s why I trusted it. You motivated me, guided me, and without even knowing you changed me. You made me softer yet stronger. You made me feel things I never thought I would feel this deeply.
+    </p>
+
+    <br>
+
+    <button class="main-btn" onclick="showNote3()">
+        More ❤️
+    </button>
+
+</div>
+
+<!-- Note Card 3 -->
+<div id="noteCard3" class="card hidden">
+
+    
+
+    <p>
+        And there’s something I never said. Maybe because I was scared. Maybe because I didn’t want to lose what we already had. But the truth is... somewhere along the way I didn’t just get used to you. I started feeling you. Deeply. Silently. In a way I could never explain out loud. 
+
+ 
+
+        <br>And that’s why this note was not suppose to reach you. Because some feelings are too real to be risked. Maybe in your life I’m just a small part. Just a phase. Just someone you talked to. But for me you became something I carry everywhere. You’re not just in my memories. You’re in my thoughts. In my habits. In the way I feel things now. 
+
+ 
+
+            <br>Even today our conversations might start to fade. Things might start to change. But still your chat will stay pinned. Not because we talk every day, but because my heart will never really unpinned you. Sometimes I go back, read old messages, and smile. And sometimes it hurts a little too. Because I realize how something so simple became so important to me.
+    </p>
+
+    <br>
+
+    <button class="main-btn" onclick="showNote4()">
+        More ❤️
+    </button>
+
+</div>
+
+<!-- Note Card 4 -->
+<div id="noteCard4" class="card hidden">
+
+    
+
+    <p>
+        And maybe that’s the quiet truth... you’re not just in my heart. You exist in the smallest parts of me. In ways even I don’t fully understand. And I don’t know what this is called. Love, attachment, or something in between. But whatever it is, it’s real. And it stayed. Even when I tried to act like it didn’t. 
+
+ 
+
+        <br>So no, this letter isn’t a confession. It’s just a feeling that needed somewhere to go. And today I let it exist here. With you, without you knowing. 
+
+ 
+
+        <br>*(But yes I have started to fall for you and I cant help it and keep it within myself. I do not seek for your reply, I'm just leting my heart breath a little.)*
+
+    <br>
+
+    <button class="main-btn" onclick="showFinalMessage()">
+        Final Message ✨
+    </button>
+
+</div>
+
+    <!-- Final Message -->
+    <div id="finalCard" class="card hidden">
+
+        <h2>✨ Final Message ✨</h2>
+
+        <p>
+            No matter where life takes us, I hope your
+            days are always filled with smiles and
+            happiness. Thank you for all the moments,
+            memories, and happiness you've brought into
+            my life.
+
+            <br><br>
+
+            Happy Birthday once again ❤️
+
+            <br><br>
+
+            May all your dreams come true.
+        </p>
+
+    </div>
+
+</div>
+
+<audio id="birthdaySong" loop>
+    <source src="photos01/nastelbom-happy-birthday-469282.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+// 22 photos
+const photos = [
+    "01/❤️❤️❤️.png",
+    "01/0001.png",
+    "01/Bandipur was beautiful along side with you❤️❤️.png",
+    "01/Cheers😊❤️❤️ to all our memories together.png",
+    "01/Guess the character. it was soo much fun😄😄.png",
+    "01/I will never forget this program and our memories alongside it. This program ments soo much for me..png",
+    "01/I wonder if your name is still on that wall.png",
+    "01/Im thankful that we get to enjoy that hicking together😊.png",
+    "02/Its amazing how we managed to get our photo together despite of all the crowd and noise..png",
+    "02/Our visit to the temple was truely peaceful❤️. I am glad that we get to enjoy it together in absence of others.png",
+    "02/Thank you for guiding me through the cave. I really enjoyed it becaue of you😊.png",
+    "02/The second time boating was soo much fun and funny😊.png",
+    "02/This is the fisrt snap saved in our 500+ snapstreak.png",
+    "02/This might be the first photo we ever took. it hold a story of how we pushed eachother to participate and win.png",
+    "02/Untitled design (1).png",
+    "03/Untitled design (2).png",
+    "03/Untitled design (3).png",
+    "03/Untitled design (5).png",
+    "03/Untitled design.png",
+    "03/Who could forget this😆😅.png",
+    "03/You are truely beautiful and cute at the same time❤️.png",
+    "03/Your baby photos are one of my prized possession😊❤️.png"
+];
+
+let currentPhoto = 0;
+
+function hideAll(){
+    document.getElementById("startScreen").classList.add("hidden");
+    document.getElementById("birthdayCard").classList.add("hidden");
+    document.getElementById("giftCard").classList.add("hidden");
+    document.getElementById("memorySection").classList.add("hidden");
+    document.getElementById("noteCard1").classList.add("hidden");
+    document.getElementById("noteCard2").classList.add("hidden");
+    document.getElementById("noteCard3").classList.add("hidden");
+    document.getElementById("noteCard4").classList.add("hidden");
+    document.getElementById("finalCard").classList.add("hidden");
+    document.getElementById("giftReadyCard").classList.add("hidden");
+}
+
+function showBirthdayCard(){
+    hideAll();
+    document.getElementById("birthdayCard").classList.remove("hidden");
+    const song = document.getElementById("birthdaySong");
+    song.play();
+}
+
+function showGift(){
+    hideAll();
+    document.getElementById("giftCard").classList.remove("hidden");
+}
+
+function backToBirthday(){
+    hideAll();
+    document.getElementById("birthdayCard").classList.remove("hidden");
+}
+
+function showMemories(){
+    hideAll();
+    document.getElementById("memorySection").classList.remove("hidden");
+}
+
+function nextPhoto(){
+
+    if(currentPhoto < photos.length-1){
+        currentPhoto++;
+    }
+
+    updatePhoto();
+
+    if(currentPhoto === photos.length-1){
+        document
+        .getElementById("noteButtonContainer")
+        .classList.remove("hidden");
+    }
+}
+
+function prevPhoto(){
+
+    if(currentPhoto > 0){
+        currentPhoto--;
+    }
+
+    updatePhoto();
+
+    if(currentPhoto < photos.length-1){
+        document
+        .getElementById("noteButtonContainer")
+        .classList.add("hidden");
+    }
+}
+
+function updatePhoto(){
+
+    document.getElementById("memoryImage").src =
+    photos[currentPhoto];
+
+    document.getElementById("photoCount").innerText =
+    `Memory ${currentPhoto+1} / ${photos.length}`;
+}
+
+function showNote(){
+    hideAll();
+    document.getElementById("noteCard1").classList.remove("hidden");
+}
+
+function showNote2(){
+    hideAll();
+    document.getElementById("noteCard2").classList.remove("hidden");
+}
+
+function showNote3(){
+    hideAll();
+    document.getElementById("noteCard3").classList.remove("hidden");
+}
+
+function showNote4(){
+    hideAll();
+    document.getElementById("noteCard4").classList.remove("hidden");
+}
+
+function showFinalMessage(){
+    hideAll();
+    document.getElementById("finalCard").classList.remove("hidden");
+}
+
+let selectedCount = 0;
+
+let selectedEarrings = [];
+
+function selectGift(element){
+
+    element.classList.toggle("selected");
+
+    const img = element.querySelector("img");
+
+    if(element.classList.contains("selected")){
+        selectedEarrings.push(img);
+    }else{
+        selectedEarrings =
+            selectedEarrings.filter(item => item !== img);
+    }
+
+    document.getElementById("selectedItems").innerHTML =
+        "Selected Earrings: " + selectedEarrings.length;
+}
+
+function showGiftReady(){
+
+    const giftBox = document.getElementById("giftBox");
+
+    if(selectedEarrings.length === 0){
+        alert("Please select at least one earring.");
+        return;
+    }
+
+    selectedEarrings.forEach((img,index)=>{
+
+        const clone = img.cloneNode(true);
+
+        const start = img.getBoundingClientRect();
+        const end = giftBox.getBoundingClientRect();
+
+        clone.style.position = "fixed";
+        clone.style.left = start.left + "px";
+        clone.style.top = start.top + "px";
+        clone.style.width = start.width + "px";
+        clone.style.height = start.height + "px";
+        clone.style.zIndex = "9999";
+        clone.style.transition = "all 1s ease";
+
+        document.body.appendChild(clone);
+
+        setTimeout(()=>{
+
+            clone.style.left =
+                (end.left + 90) + "px";
+
+            clone.style.top =
+                (end.top + 40) + "px";
+
+            clone.style.width = "20px";
+            clone.style.height = "20px";
+            clone.style.opacity = "0";
+
+        }, index * 300);
+
+        setTimeout(()=>{
+            clone.remove();
+        }, index * 300 + 1000);
+
+    });
+
+    setTimeout(()=>{
+
+        hideAll();
+
+        document
+            .getElementById("giftReadyCard")
+            .classList.remove("hidden");
+
+    }, selectedEarrings.length * 300 + 1200);
+}
+</script>
+
+</body>
+</html>
